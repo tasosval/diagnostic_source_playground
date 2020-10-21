@@ -5,6 +5,12 @@ using Microsoft.Extensions.Logging;
 
 namespace DiagnosticSource.ConsoleCore
 {
+    /// <summary>
+    /// Use this implementation to subscribe to DiagnosticSource events and write them to a log
+    ///
+    /// We implement the IObserver interface to get events about any new DiagnosticListener that might create events
+    /// but also any new event that will come from the "DiagnosticSourceTest.Lib" <see cref="DiagnosticSource"/>
+    /// </summary>
     public class DiagnosticListenerToLogger: IDisposable, IObserver<KeyValuePair<string, object>>, IObserver<DiagnosticListener>
     {
         private const string DiagnosticSourceTestLibListenerName = "DiagnosticSourceTest.Lib";
@@ -29,7 +35,7 @@ namespace DiagnosticSource.ConsoleCore
         
         public void OnCompleted()
         {
-            
+            _logger.LogInformation("Diagnostic source completed sending events");
         }
 
         public void OnError(Exception error)
@@ -57,11 +63,11 @@ namespace DiagnosticSource.ConsoleCore
             {
                 case "FetchFailure":
                     _logger.LogError(
-                        $"From Listener {DiagnosticSourceTestLibListenerName} Received Event {key} with payload {value.ToString()}");
+                        $"From Listener {DiagnosticSourceTestLibListenerName} Received Event {key} with payload {value}");
                     break;
                 case "FetchSuccessful":
                     _logger.LogInformation(
-                        $"From Listener {DiagnosticSourceTestLibListenerName} Received Event {key} with payload {value.ToString()}");
+                        $"From Listener {DiagnosticSourceTestLibListenerName} Received Event {key} with payload {value}");
                     break;
             }
         }
