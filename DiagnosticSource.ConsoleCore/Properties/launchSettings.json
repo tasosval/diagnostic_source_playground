@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "DiagnosticSource.ConsoleCore": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
